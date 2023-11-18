@@ -1,8 +1,8 @@
-import Hero from "@components/course/hero/Hero"
-import Keypoints from "@components/course/keypoints/Keypoints"
-import Curriculum from "@components/course/curriculum/Curriculum"
-import Modal from "@components/common/modal/Modal"
-import Base from "@components/layout/base/Base"
+import Hero from "@components/ui/course/hero/Hero"
+import Keypoints from "@components/ui/course/keypoints/Keypoints"
+import Curriculum from "@components/ui/course/curriculum/Curriculum"
+import Modal from "@components/ui/common/modal/Modal"
+import Base from "@components/ui/layout/base/Base"
 import { useRouter } from "next/router"
 import courses from "@content/courses/index.json"
 

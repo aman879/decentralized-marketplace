@@ -1,8 +1,7 @@
 import React from "react";
-import Hero from "@components/common/hero/Hero";
-import List from "@components/course/list/list";
-import Base from "@components/layout/base/Base";
-import { data, courseMap } from "@content/courses/fetcher";
+import Hero from "@components/ui/common/hero/Hero";
+import List from "@components/ui/course/list/list";
+import Base from "@components/ui/layout/base/Base";
 import courses from "@content/courses/index.json";
 
 class Home extends React.Component {

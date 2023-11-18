@@ -1,5 +1,5 @@
-import Navbar from "@components/common/navbar/navbar";
-import Footer from "@components/common/footer/footer";
+import Navbar from "@components/ui/common/navbar/navbar";
+import Footer from "@components/ui/common/footer/footer";
 
 export default function Base({children}) {
 
