@@ -1,10 +1,15 @@
 import { useAccount } from "@components/hooks/web3/useAccount"
 import { useNetwork } from "@components/hooks/web3/useNetwork";
+import { useWeb3 } from "@components/providers";
 
 export default function WallteBar() {
+  const {isWeb3Loaded} = useWeb3()
   const{account} = useAccount();
   const {network} = useNetwork();
-  console.log(network.data)
+  var netData
+  if(network.isLoaded) {
+    netData = network.data
+  }
   const address = account.data
   let color = "bg-indigo-600"
   let admin = ""
@@ -13,7 +18,7 @@ export default function WallteBar() {
     admin = "Admin"
   }
     return(
-      <section className={`text-white ${color}`}>
+      <section className={`text-white rounded-lg ${color}`}>
               <div className="p-8">
                 <h1 className="text-2xl">Hello, {admin} {address}</h1>
                 <h2 className="subtitle mb-5 text-xl">I hope you are having a great day!</h2>
@@ -26,7 +31,15 @@ export default function WallteBar() {
                     </div>
                   </div>
                   <div>
-                    <div><span>Currently on </span><strong className="text-2xl">Ethereum Main Network</strong></div>
+                    { !isWeb3Loaded &&
+                      <div className="bg-yellow-500 p-4 rounded-lg">
+                        Cannot connect to Network, Please install Metamask.   
+                      </div>
+                    }
+                    { netData && address
+                        ? <div><span>Currently on </span><strong className="text-2xl">{netData}</strong></div>
+                        : <div className="bg-yellow-500 p-4 rounded-lg">Please connect to your wallet.</div>
+                    }
                   </div>
                 </div>
               </div>

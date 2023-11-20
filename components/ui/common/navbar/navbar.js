@@ -26,7 +26,7 @@ export default function Footer() {
                         className="opacity-50 cursor-not-allowed px-8 py-3 rounded-md border text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700">
                         Loading...
                       </button>
-                    : isWeb3Loaded && !pathname.includes("/marketplace")
+                    : isWeb3Loaded
                       ? account.data && !pathname.includes("/marketplace")
                         ? account.isAdmin
                           ? <button
@@ -39,19 +39,19 @@ export default function Footer() {
                               className="px-8 py-3 cursor-default rounded-md border text-base font-medium text-white bg-indigo-600">
                               {account.data}
                             </button>
-                        : <button
-                            onClick={connect}
-                            className="px-8 py-3 rounded-md border text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700">
-                            Connect
-                          </button>
-                      : (!pathname.includes("/marketplace"))
-                        ? <button
+                        : (!pathname.includes("/marketplace"))
+                          ? <button
+                              onClick={connect}
+                              className="px-8 py-3 rounded-md border text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700">
+                              Connect
+                            </button>
+                          : <></>
+                      : <button
                             onClick={() => window.open("https://metamask.io/download/", "_blank")}
                             target = "_blank"
                             className="px-8 py-3 rounded-md border text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700">
                             Install Metamask
                           </button>
-                        : <></>     
                   }
               </div>
             </div>
