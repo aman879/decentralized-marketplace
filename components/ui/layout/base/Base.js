@@ -13,6 +13,6 @@ export default function Base({children}) {
             </div>
             </div>
             <Footer />
-      </Web3Provider>
+        </Web3Provider>
     )
 }
