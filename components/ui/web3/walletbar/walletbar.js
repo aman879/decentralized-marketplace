@@ -1,8 +1,10 @@
 import { useAccount } from "@components/hooks/web3/useAccount"
-
+import { useNetwork } from "@components/hooks/web3/useNetwork";
 
 export default function WallteBar() {
   const{account} = useAccount();
+  const {network} = useNetwork();
+  console.log(network.data)
   const address = account.data
   let color = "bg-indigo-600"
   let admin = ""
@@ -11,7 +13,7 @@ export default function WallteBar() {
     admin = "Admin"
   }
     return(
-        <section className={`text-white ${color}`}>
+      <section className={`text-white ${color}`}>
               <div className="p-8">
                 <h1 className="text-2xl">Hello, {admin} {address}</h1>
                 <h2 className="subtitle mb-5 text-xl">I hope you are having a great day!</h2>
