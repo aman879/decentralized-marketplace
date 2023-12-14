@@ -32,7 +32,7 @@ export default function WallteBar() {
                     { !isWeb3Loaded
                         ? <div className="bg-yellow-500 p-4 rounded-lg">
                             Cannot connect to Network, Please install Metamask.   
-                          </div>
+                          </div> 
                         : netData && address
                           ? <div><span>Currently on </span><strong className="text-2xl">{netData}</strong></div>
                           : <div className="bg-yellow-500 p-4 rounded-lg">Please connect to your wallet.</div>

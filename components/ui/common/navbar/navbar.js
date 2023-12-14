@@ -1,5 +1,5 @@
 import { useWeb3 } from "@components/providers"
-import Link from "next/link"
+import ActiveLink from "../link/ActiveLink"
 import { useAccount } from "@components/hooks/web3/useAccount"
 import { useRouter } from "next/router"
 
@@ -13,12 +13,12 @@ export default function Footer() {
           <nav className="relative" aria-label="Global">
             <div className="flex justify-between items-center">
               <div>
-                <Link href="/" className="font-medium mr-8 text-gray-500 hover:text-gray-900">Home</Link>
-                <Link href="/marketplace" className="font-medium mr-8 text-gray-500 hover:text-gray-900">Marketplace</Link>
-                <Link href="/" className="font-medium mr-8 text-gray-500 hover:text-gray-900">Blogs</Link>
+                <ActiveLink legacyBehavior href="/" className="font-medium mr-8 text-gray-500 hover:text-gray-900"><a>Home</a></ActiveLink>
+                <ActiveLink legacyBehavior href="/marketplace" className="font-medium mr-8 text-gray-500 hover:text-gray-900"><a>Marketplace</a></ActiveLink>
+                <ActiveLink legacyBehavior href="/blogs" className="font-medium mr-8 text-gray-500 hover:text-gray-900"><a>Blogs</a></ActiveLink>
               </div>
               <div>
-                <Link href="/" className="font-medium mr-8 text-gray-500 hover:text-gray-900">Wishlist</Link>
+                <ActiveLink legacyBehavior href="/wishlist" className="font-medium mr-8 text-gray-500 hover:text-gray-900"><a>Wishlist</a></ActiveLink>
                 { (isLoading)
                     ? <button
                         onClick={connect}
