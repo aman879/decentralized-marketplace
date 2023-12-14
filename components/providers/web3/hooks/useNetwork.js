@@ -7,7 +7,8 @@ const NETWORKS = {
     5: "Goerli Test Network",
     11155111: "Sepolia Test Network",
     59140 : "Linea Goerli Test Network",
-    1337: "Ganache"
+    1337: "Ganache Test Network",
+    5777: "Ganache Test Network"
 }
 
 export const handler = web3 => () => {
