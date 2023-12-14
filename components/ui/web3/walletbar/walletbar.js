@@ -1,11 +1,9 @@
-import { useAccount } from "@components/hooks/web3/useAccount"
-import { useNetwork } from "@components/hooks/web3/useNetwork";
-import { useWeb3 } from "@components/providers";
+import { useWalletInfo } from "@components/hooks/web3/useWalletInfo"
+import { useWeb3 } from "@components/providers"
 
 export default function WallteBar() {
   const {isWeb3Loaded} = useWeb3()
-  const{account} = useAccount();
-  const {network} = useNetwork();
+  const {account, network} = useWalletInfo()
   var netData
   if(network.isLoaded) {
     netData = network.data
@@ -31,14 +29,13 @@ export default function WallteBar() {
                     </div>
                   </div>
                   <div>
-                    { !isWeb3Loaded &&
-                      <div className="bg-yellow-500 p-4 rounded-lg">
-                        Cannot connect to Network, Please install Metamask.   
-                      </div>
-                    }
-                    { netData && address
-                        ? <div><span>Currently on </span><strong className="text-2xl">{netData}</strong></div>
-                        : <div className="bg-yellow-500 p-4 rounded-lg">Please connect to your wallet.</div>
+                    { !isWeb3Loaded
+                        ? <div className="bg-yellow-500 p-4 rounded-lg">
+                            Cannot connect to Network, Please install Metamask.   
+                          </div>
+                        : netData && address
+                          ? <div><span>Currently on </span><strong className="text-2xl">{netData}</strong></div>
+                          : <div className="bg-yellow-500 p-4 rounded-lg">Please connect to your wallet.</div>
                     }
                   </div>
                 </div>
