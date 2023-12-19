@@ -10,7 +10,7 @@ const defaultOrder = {
 
 const _createFormState = (isDisabled= false, message= "") => ({isDisabled, message})
 
-const createFormState = ({price, email, confirmationEmail}) => {
+const createFormState = ({price, email, confirmationEmail, hasAgreedTOS}) => {
   if(!price || Number(price) <= 0) {
     return _createFormState(true, "Price is not valid")
   } else if(email.length === 0) {
@@ -19,6 +19,10 @@ const createFormState = ({price, email, confirmationEmail}) => {
     return _createFormState(true, "Please provide confirmation mail")
   } else if(email !== confirmationEmail) {
     return _createFormState(true, "Email are not matching")
+  } else if(!hasAgreedTOS) {
+    return _createFormState(true, "You need to accept TOS")
+  } else if(hasAgreedTOS) {
+    return _createFormState(false, "")
   }
 
 
@@ -29,6 +33,7 @@ export default function OrderModal({course, onClose}) {
     const [isOpen, setIsOpen] = useState(false)
     const [order, setOrder] = useState(defaultOrder)
     const [enablePrice, setEnablePrice] = useState(false)
+    const [hasAgreedTOS, setHasAgreedTOS] = useState(false)
     const {eth} = useEthPrice()
 
     useEffect(() => {
@@ -44,10 +49,16 @@ export default function OrderModal({course, onClose}) {
     const closeModal = () => {
         setIsOpen(false)
         setOrder(defaultOrder)
+        setEnablePrice(false)
+        setHasAgreedTOS(false)
         onClose()
     }
 
-    const formState = createFormState(order)
+    const formState = createFormState({
+      price: order.price,
+      email: order.email,
+      confirmationEmail: order.confirmationEmail,
+      hasAgreedTOS: hasAgreedTOS})
 
     return(
         <Modal isOpen={isOpen}>
@@ -143,6 +154,10 @@ export default function OrderModal({course, onClose}) {
               <div className="text-xs text-gray-700 flex">
                 <label className="flex items-center mr-2">
                   <input
+                    checked={hasAgreedTOS}
+                    onChange={({target: {checked}}) => {
+                      setHasAgreedTOS(checked)
+                    }}
                     type="checkbox"
                     className="form-checkbox" />
                 </label>
