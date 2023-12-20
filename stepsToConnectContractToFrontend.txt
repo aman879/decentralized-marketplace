@@ -1,0 +1,55 @@
+1. Create smart contract and set contracts_build_directory to public
+2. Migrate smart contract
+3. Create utils folder and under it create "loadContract.js"
+4. Install "truffle contract" to connect contract in frontend
+        npm install @truffle/contract
+5. Write content for loadContract and call it in web3 hooks or where you loaded provider and store it as contract variable
+    if error found as "Can't resolve 'fs'"
+        do
+            in next.config.js
+            under reactStrictMode write:
+                webpack: (config, {isServer}) => {
+                    if(!isServer) {
+                        config.resolve.fallback.fs = false
+                    }
+                    return config
+                }
+            remake contract
+    cons:- warning, size of file
+
+            or
+
+5. create js/truffle-contract.js in public and copy /home/schizo/decentralized-marketplace/node_modules/@truffle/contract/browser-dist/truffle-contract.min.js contant
+    and load it through browser by adding below code in any component
+        //header
+        import Script from "next/scipt"
+
+        //on body in return()
+        <Script src="/js/truffle-contract.js" strategy="beforeInteractive"/>
+    on utils remove import since it now available globally and rewrite
+        const _contract = window.TruffleContract(Artifact)
+    cons:- loading time
+
+            or (best way)
+
+4. on loadContract
+    const network_id = process.env.NEXT_PUBLIC_NETWORK_ID
+
+    export const loadContract = async (name, web3) => {
+        const res = await fetch(`contracts/${name}.json`)
+        const Artifact = await res.json()
+        let contract = null
+
+        try {
+            contract = new web3.eth.Contract(
+                Artifact.abi,
+                Artifact.networks[network_id].address
+            )
+        } catch {
+            console.log(`Contract ${name} cannot be loaded`)
+        }
+    }
+
+    NEXT_PUBLIC_NETWORK_ID is chainID like here is 5777
+
+    delete .next folder
