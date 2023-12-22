@@ -29,7 +29,7 @@ const createFormState = ({price, email, confirmationEmail, hasAgreedTOS}) => {
   return _createFormState()
 }
 
-export default function OrderModal({course, onClose}) {
+export default function OrderModal({course, onClose, onSubmit}) {
     const [isOpen, setIsOpen] = useState(false)
     const [order, setOrder] = useState(defaultOrder)
     const [enablePrice, setEnablePrice] = useState(false)
@@ -175,7 +175,7 @@ export default function OrderModal({course, onClose}) {
           <button
             disabled={formState.isDisabled}
             onClick={() => {
-              alert(JSON.stringify(order))
+              onSubmit(order)
             }}
             className="px-9 py-1 rounded-md border text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700">
             Submit

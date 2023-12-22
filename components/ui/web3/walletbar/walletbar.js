@@ -2,7 +2,7 @@ import { useWalletInfo } from "@components/hooks/web3/useWalletInfo"
 import { useWeb3 } from "@components/providers"
 
 export default function WallteBar() {
-  const {isWeb3Loaded} = useWeb3()
+  const {isWeb3Loaded, web3} = useWeb3()
   const {account, network} = useWalletInfo()
   var netData
   if(network.isLoaded) {

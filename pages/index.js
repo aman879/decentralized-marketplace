@@ -21,6 +21,7 @@ const HomeContent = () => {
     </>
   )
 }
+
 class Home extends React.Component {
   render() {
     return (
