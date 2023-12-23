@@ -20,6 +20,11 @@ export default function Course() {
 
     const { ownedCourse } = useOwnedCourse(contract, account.data, course)
     const courseState = ownedCourse.data?.state
+    //const courseState = "activated"
+
+    const isLocked =
+    !courseState ||
+     courseState === "purchased" || courseState === "deactivated"
     
     return (
         <Base>
@@ -54,7 +59,7 @@ export default function Course() {
                     }
                 </div>
             }
-            <Curriculum locked={true}/>
+            <Curriculum locked={isLocked} courseState={courseState}/>
             <Modal />
         </Base>
     )
