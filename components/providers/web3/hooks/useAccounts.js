@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import useSWR from "swr";
 
 const adminAddress = {
-    "0x45c8789ae346dd6a6ca843dda9236d8d23da6b47101e4b7d97d269ecee695c97": true
+    "0xd608a4f3729ad3c4e7b90c239e2dd7fcd73defd66ddf14c3f8da465e81414b6b": true
 };
 
 //       USING STATE

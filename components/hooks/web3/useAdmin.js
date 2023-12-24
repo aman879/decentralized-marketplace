@@ -10,7 +10,7 @@ export const useAdmin = ({redirectTo}) => {
     const router = useRouter()
     
     useEffect(() => {
-        if((!isWeb3Loaded || account.data && !account.isAdmin)) {
+        if((account.data && !account.isAdmin)) {
             alert("Only Admin can use this")
             router.push(redirectTo)
         }

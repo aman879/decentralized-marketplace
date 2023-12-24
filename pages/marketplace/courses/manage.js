@@ -55,6 +55,16 @@ export default function ManageCourses() {
             })
     }
 
+    const activateCourse = async (courseHash) => {
+        try {
+            await contract.methods.activateCourse(courseHash).send({
+                from: account.data
+            })
+        } catch (error) {
+            console.error(error.message)
+        }
+    }
+
     if(!account.isAdmin) {
         return null
     }
@@ -88,6 +98,19 @@ export default function ManageCourses() {
                                 <Message type="danger">
                                     Wrong Proof! 
                                 </Message>
+                            </div>
+                        }
+                        {
+                            course.state === "purchased" &&
+                            <div>
+                                <button 
+                                    onClick={() => activateCourse(course.hash)}
+                                    className="mt-2 mr-2 px-8 py-3 rounded-md border text-base font-medium text-white bg-green-600 hover:bg-green-700">
+                                    Activate
+                                </button>
+                                <button className="mt-2 px-8 py-3 rounded-md border text-base font-medium text-white bg-red-600 hover:bg-red-700">
+                                    Deactivate
+                                </button>
                             </div>
                         }
                     </ManageCard>

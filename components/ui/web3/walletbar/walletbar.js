@@ -12,7 +12,7 @@ export default function WallteBar() {
   let color = "bg-indigo-600"
   let admin = ""
   if(account.isAdmin) {
-    color = "bg-yellow-400"
+    color = "bg-gray-700"
     admin = "Admin"
   }
     return(

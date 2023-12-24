@@ -41,6 +41,9 @@ contract CourseMarketplace {
     /// Course has already a Owner!
     error CourseHasOwner();
 
+    /// Sender is not course Owner!
+    error SenderIsNotCourseOwner();
+
     modifier onylOwner() {
         require(msg.sender == owner, "You are not the owner");
         _;
@@ -65,6 +68,26 @@ contract CourseMarketplace {
         });
     }
 
+    function repurchaseCourse(bytes32 courseHash) external payable {
+         
+        if (!hasCourseOwnership(courseHash)) {
+            revert SenderIsNotCourseOwner();
+        }
+
+        if (!isCourseCreated(courseHash)) {
+            revert CourseIsNotCreated();
+        }
+
+        Course storage course = ownedCourses[courseHash];
+
+        if (course.state != State.Deactivated) {
+            revert InvalidState();
+        }
+
+        course.state = State.Purchased;
+        course.price = msg.value;
+    }
+
     function activateCourse (bytes32 courseHash) external onylOwner {
 
         if(!isCourseCreated(courseHash)) {
@@ -78,6 +101,25 @@ contract CourseMarketplace {
         }
 
         course.state = State.Activated;
+    }
+
+    function deactivateCourse(bytes32 courseHash) external onylOwner {
+
+        if(!isCourseCreated(courseHash)) {
+            revert CourseIsNotCreated();
+        }
+
+        Course storage course = ownedCourses[courseHash];
+
+        if(course.state != State.Purchased) {
+            revert InvalidState();
+        }
+
+        (bool success, ) = course.owner.call{value: course.price}("");
+        require(success, "Transfer failed!");
+
+        course.state = State.Deactivated;
+        course.price = 0;
     }
 
     function tranferOwnership(address newOwner) external onylOwner {

@@ -31,7 +31,7 @@ export default function Footer() {
                         ? account.isAdmin
                           ? <button
                               onClick={connect}
-                              className="px-8 py-3 cursor-default rounded-md border text-base font-medium text-white bg-yellow-400">
+                              className="px-8 py-3 cursor-default rounded-md border text-base font-medium text-white bg-gray-700">
                               {account.data}
                             </button>
                           : <button
