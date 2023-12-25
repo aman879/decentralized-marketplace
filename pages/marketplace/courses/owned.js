@@ -8,12 +8,14 @@ import { MarketHeader } from "@components/ui/marketplace";
 import courses from "@content/courses/index.json";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { useNetwork } from "@components/hooks/web3/useNetwork";
 
 export default function OwnedCourses() {
     const router = useRouter()
     const {contract} = useWeb3()
     const {account} = useAccount()
-    const {ownedCourses} = useOwnedCourses(courses, account.data, contract)
+    const {network} = useNetwork()
+    const {ownedCourses} = useOwnedCourses(courses, account.data, contract, network.data)
     
     return(
         <Base>

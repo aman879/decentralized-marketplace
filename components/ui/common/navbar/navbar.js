@@ -2,6 +2,7 @@ import { useWeb3 } from "@components/providers"
 import ActiveLink from "../link/ActiveLink"
 import { useAccount } from "@components/hooks/web3/useAccount"
 import { useRouter } from "next/router"
+import Loader from "../loader/Loader"
 
 export default function Footer() {
     const { connect, isLoading, isWeb3Loaded} = useWeb3()
@@ -24,7 +25,7 @@ export default function Footer() {
                         onClick={connect}
                         disabled={true}
                         className="opacity-50 cursor-not-allowed px-8 py-3 rounded-md border text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700">
-                        Loading...
+                        <Loader />
                       </button>
                     : isWeb3Loaded
                       ? account.data && !pathname.includes("/marketplace")

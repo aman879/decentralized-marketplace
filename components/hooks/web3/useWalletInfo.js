@@ -6,10 +6,11 @@ export const useWalletInfo = () => {
     const {account} = useAccount()
     const {network} = useNetwork()
 
-    const canPurchaseCourse = !!(account.data && network.data)
+    const hasConnectedWallet = !!(account.data && network.data)
+    
     return {
         account,
         network,
-        canPurchaseCourse
+        hasConnectedWallet
     }
 }

@@ -7,10 +7,12 @@ import OrderModal from "@components/ui/order/modal/OrderModal";
 import { useWalletInfo } from "@components/hooks/web3/useWalletInfo";
 import { MarketHeader } from "@components/ui/marketplace";
 import { useWeb3 } from "@components/providers";
+import { useOwnedCourses } from "@components/hooks/web3/useOwnedCourses";
 
 export default function  Marketplace() {
-    const { web3, contract } = useWeb3()
-    const {canPurchaseCourse, account} = useWalletInfo()
+    const { web3, contract, isWeb3Loaded } = useWeb3()
+    const {hasConnectedWallet, account, network} = useWalletInfo()
+    const { ownedCourses } = useOwnedCourses(courses, account.data, contract, network.data)
     const [selectedCourse, setSelectedCourse] = useState(null)
 
     const purchaseOrder = async order => {
@@ -49,17 +51,56 @@ export default function  Marketplace() {
                     {course => 
                         <Card 
                             key={course.id}
-                            disabled={!canPurchaseCourse} 
+                            disabled={!hasConnectedWallet} 
                             course={course} 
-                            Footer={() => 
-                                <div className="mt-4">
+                            Footer={() =>  {
+
+                                if(!isWeb3Loaded) {
+                                    return (
+                                        <button
+                                            onClick={() => setSelectedCourse(course)}
+                                            disabled={true}
+                                            className="mt-3 px-8 py-2 rounded-md border text-base font-medium text-indigo-700 bg-indigo-100 hover:bg-indigo-200">
+                                                Install Metamask
+                                        </button>
+                                    )
+                                }
+
+                                if(!ownedCourses.hasInitialResponse) {
+                                    return (
+                                        <button
+                                            onClick={() => setSelectedCourse(course)}
+                                            disabled={true}
+                                            className="mt-3 px-8 py-2 rounded-md border text-base font-medium text-indigo-700 bg-indigo-100 hover:bg-indigo-200">
+                                                Loading State
+                                        </button>
+                                    )
+                                }
+
+                                const owned = ownedCourses.lookup[course.id]
+
+                                if (owned) {
+                                    return (
+                                      <button
+                                        onClick={() => window.location.href = `/courses/${course.slug}`}
+                                        disabled={false}
+                                        className="mt-3 px-8 py-2 rounded-md border text-base font-medium text-green-700 bg-green-100 hover:bg-green-200"
+                                      >
+                                        Watch Course
+                                      </button>
+                                    );
+                                  }
+                                  
+
+                                return (
                                     <button
                                         onClick={() => setSelectedCourse(course)}
-                                        disabled={!canPurchaseCourse}
-                                        className="px-8 py-2 rounded-md border text-base font-medium text-indigo-700 bg-indigo-100 hover:bg-indigo-200">
+                                        disabled={!hasConnectedWallet}
+                                        className="mt-3 px-8 py-2 rounded-md border text-base font-medium text-indigo-700 bg-indigo-100 hover:bg-indigo-200">
                                             Purchase
                                     </button>
-                                </div>
+                                )
+                            }
                     }/>}
                 </List>
                 { selectedCourse &&

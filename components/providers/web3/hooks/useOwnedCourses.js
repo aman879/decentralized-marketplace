@@ -2,9 +2,9 @@ import { normalizeOwnedCourse } from "@utils/normalize"
 import useSWR from "swr"
 
 
-export const handler = (web3) => (courses, account, contract) => {
+export const handler = (web3) => (courses, account, contract, network) => {
     const swrRes = useSWR(() =>
-    web3 && courses && contract? `web3/ownedCourses/${account}` : null,
+    web3 && courses && contract && network? `web3/ownedCourses/${account}/${network}` : null,
     async () => {
         const ownedCourses = []
 
@@ -29,5 +29,11 @@ export const handler = (web3) => (courses, account, contract) => {
         }
     )
 
-        return swrRes
+        return {
+            ...swrRes,
+            lookup: swrRes.data?.reduce((a, c) => {
+                a[c.id] = c
+                return a
+            }, {}) ?? {}
+        }
 }
