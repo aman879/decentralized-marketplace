@@ -263,4 +263,113 @@
                 }
             })
         })
+
+        describe("Receive funds", () => {
+            it("should have transacted funds", async () => {
+                const value = "100000000000000000"
+                const contractBeforeTx = await getBalance(_contract.address)
+
+                await web3.eth.sendTransaction({
+                    from: buyer,
+                    to: _contract.address,
+                    value
+                })
+
+                const contractAfterTx = await getBalance(_contract.address)
+
+                assert.equal(
+                    toBN(contractBeforeTx).add(toBN(value)).toString(),
+                    contractAfterTx,
+                    "Value after transaction is not matching!"
+                )
+            })
+        })
+
+        describe("Normal withdraw", () => {
+            const fundsToDeopsit = "100000000000000000"
+            const fundsToWithdraw = "10000000000000000"
+
+            before(async () => {
+                await web3.eth.sendTransaction({
+                    from: buyer,
+                    to: _contract.address,
+                    value: fundsToDeopsit
+                })
+            })
+
+            it("should fail when someone else beside owner withdraw", async () => {
+                try {
+                    await _contract.withdraw(fundsToWithdraw, {from: buyer})
+                } catch(error) {
+                    assert(error, "Expected an error")
+                }
+            })
+
+            it("should not withdraw when amount is greater than funds", async () => {
+                const value = "1000000000000000000"
+                try {
+                    await _contract.withdraw(value, {from: contractOwner})
+                } catch (error) {
+                    assert(error, "Expected an error")
+                }
+            })
+
+            it("should withdraw correctly", async () => {
+                const ownerBalance = await getBalance(contractOwner)
+                const result = await _contract.withdraw(fundsToWithdraw, {from: contractOwner})
+                const newOwnerBalance = await getBalance(contractOwner)
+
+                const gas = await getGas(result)
+
+                assert.equal(
+                    toBN(ownerBalance).add(toBN(fundsToWithdraw)).sub(gas).toString(),
+                    newOwnerBalance,
+                    "The new owner balance is not correct"
+                )
+            })
+        })
+
+        describe("Emergency Withdraw", () => {
+            const fundsToDeopsit = "100000000000000000"
+            before(async () => {
+                await web3.eth.sendTransaction({
+                    from: buyer,
+                    to: _contract.address,
+                    value: fundsToDeopsit
+                })
+            })
+
+            after(async () => {
+                await _contract.resumeContract({from: contractOwner})
+            })
+
+            it("should fail when contract is not stopped", async () => {
+                try {
+                    await _contract.emergencyWithdraw({from: contractOwner})
+                } catch (error) {
+                    assert(error, "Expected an error")
+                }
+            })
+
+            it("should add funds to contract owner", async () => {
+                await _contract.stopContract({from: contractOwner})
+
+                const contractBalance = await getBalance(_contract.address)
+                const ownerBalance = await getBalance(contractOwner)
+
+                const result = await _contract.emergencyWithdraw({from: contractOwner})
+                const gas = await getGas(result)
+
+                const newContractBalance  = await getBalance(_contract.address)
+                const newOwnerBalance = await getBalance(contractOwner)
+
+                assert.equal(
+                    toBN(ownerBalance).add(toBN(contractBalance)).sub(gas).toString(),
+                    newOwnerBalance,
+                    "Owner balance not correct"
+                )
+
+                assert.equal(newContractBalance, 0, "Not all fund went")
+            })
+        })
     })
