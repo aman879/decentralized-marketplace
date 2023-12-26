@@ -2,7 +2,7 @@ module.exports = {
   contracts_build_directory: "./public/contracts",
   networks: {
     ganache: {
-      host: "172.29.16.1",
+      host: "192.168.80.1",
       port: 7545,
       network_id: "*",
     }

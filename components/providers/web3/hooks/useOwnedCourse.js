@@ -2,9 +2,9 @@ import { normalizeOwnedCourse } from "@utils/normalize"
 import useSWR from "swr"
 
 
-export const handler = web3 => (contract, account, course) => {
+export const handler = web3 => (contract, account, course, network) => {
     const swrRes = useSWR(() =>
-    web3 && course && contract? `web3/ownedCourse/${account}` : null,
+    web3 && course && contract && network? `web3/ownedCourse/${account}/${network}` : null,
     async () => {
             const hexCourseId = web3.utils.utf8ToHex(course.id)
             const courseHash = web3.utils.soliditySha3(

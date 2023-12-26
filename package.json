@@ -13,6 +13,7 @@
     "next": "14.0.3",
     "react": "^18",
     "react-dom": "^18",
+    "react-simple-animate": "^3.5.2",
     "swr": "^2.2.4",
     "web3": "^4.2.2"
   },

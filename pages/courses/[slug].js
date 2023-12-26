@@ -7,18 +7,18 @@ import { useRouter } from "next/router"
 import courses from "@content/courses/index.json"
 import { useOwnedCourse } from "@components/hooks/web3/useOwnedCourse"
 import { useWeb3 } from "@components/providers"
-import { useAccount } from "@components/hooks/web3/useAccount"
 import Message from "@components/ui/common/message/Message"
+import { useWalletInfo } from "@components/hooks/web3/useWalletInfo"
 
 export default function Course() {  
     const {contract} = useWeb3()
-    const {account} = useAccount()
+    const {account, network} = useWalletInfo()
     const router = useRouter();
     const { slug } = router.query;
     
     const course = getCourseData(slug);
 
-    const { ownedCourse } = useOwnedCourse(contract, account.data, course)
+    const { ownedCourse } = useOwnedCourse(contract, account.data, course, network.data)
     const courseState = ownedCourse.data?.state
     //const courseState = "activated"
 
