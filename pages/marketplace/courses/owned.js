@@ -26,7 +26,7 @@ export default function OwnedCourses() {
                 { ownedCourses.isEmpty &&
                     <div>
                         <Message type="warning">
-                            <div>You don't own any courses</div> 
+                            <div>You do not own any courses</div> 
                             <div>
                                 <Link href="/marketplace" legacyBehavior>
                                     <a className="font-normal hover:underline">
