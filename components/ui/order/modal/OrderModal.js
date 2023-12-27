@@ -185,7 +185,7 @@ export default function OrderModal({course, onClose,  onSubmit, isNewPurchase}) 
           <button
             disabled={formState.isDisabled}
             onClick={() => {
-              onSubmit(order)
+              onSubmit(order, course)
             }}
             className="px-9 py-1 rounded-md border text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700">
             Submit

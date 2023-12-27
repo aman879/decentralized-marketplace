@@ -8,6 +8,7 @@ import CourseFilter from "@components/ui/course/filter/Filter";
 import Base from "@components/ui/layout/base/Base";
 import { MarketHeader } from "@components/ui/marketplace";
 import { normalizeOwnedCourse } from "@utils/normalize";
+import { withToast } from "@utils/toast";
 import { useEffect, useState } from "react";
 
 const VerificationInput = ({onVerify}) => {
@@ -64,21 +65,24 @@ export default function ManageCourses() {
 
     const activateCourse = async (courseHash) => {
         try {
-            await contract.methods.activateCourse(courseHash).send({
+            const result = await contract.methods.activateCourse(courseHash).send({
                 from: account.data
             })
+            return result
         } catch (error) {
-            console.error(error.message)
+            throw new Error(error.message)
         }
     }
 
     const deactivateCourse = async (courseHash) => {
         try {
-            await contract.methods.deactivateCourse(courseHash).send({
+            const result = await contract.methods.deactivateCourse(courseHash).send({
                 from: account.data
             })
+
+            return result
         } catch (error) {
-            console.error(error.message)
+            throw new Error(error.message)
         }
     }
 
@@ -126,12 +130,12 @@ export default function ManageCourses() {
                     course.state === "purchased" &&
                     <div>
                         <button 
-                            onClick={() => activateCourse(course.hash)}
+                            onClick={() => withToast(activateCourse(course.hash))}
                             className="mt-2 mr-2 px-8 py-3 rounded-md border text-base font-medium text-white bg-green-600 hover:bg-green-700">
                             Activate
                         </button>
                         <button
-                            onClick={() => deactivateCourse(course.hash)}
+                            onClick={() => withToast(deactivateCourse(course.hash))}
                             className="mt-2 px-8 py-3 rounded-md border text-base font-medium text-white bg-red-600 hover:bg-red-700">
                             Deactivate
                         </button>
@@ -173,7 +177,7 @@ export default function ManageCourses() {
                 }
                 <h1 className="text-2xl font-bold p-5">All Courses</h1>
                 { filteredCourse }
-                { filteredCourse && 
+                { !filteredCourse && 
                     <Message type="danger">
                         No course to display
                     </Message>

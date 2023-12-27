@@ -1,7 +1,7 @@
 import Image from "next/legacy/image";
 
 const STATE_COLORS = {
-  purchased: "indigo",
+  purchased: "yellow",
   activated: "green",
   deactivated: "red",
 }

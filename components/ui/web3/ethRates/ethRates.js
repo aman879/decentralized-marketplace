@@ -8,7 +8,7 @@ export default function EthRates() {
   const eth = ethData.eth
   const [currency, setCurrency] = useState("INR")
   const [price, setPrice] = useState(0)
-  const [lastPrice, setLastPrice] = useState(5+"$")
+  const [lastPrice, setLastPrice] = useState(1+"$")
   const [ethVal, setEthVal] = useState(0)
 
   useEffect(() => {
