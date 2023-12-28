@@ -6,7 +6,7 @@ const Item = ({title, value, className}) => {
             <div className="text-sm font-medium text-gray-500">
                 {title}
             </div>
-            <div className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+            <div className="mt-1 text-sm break-words text-gray-900 sm:mt-0 sm:col-span-8">
                 {value}
             </div>
         </div>

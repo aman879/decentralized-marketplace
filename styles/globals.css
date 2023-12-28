@@ -30,9 +30,10 @@ body {
   height: 100%;
 }
 
-.next-image-wrapper > div {
+.next-image-wrapper img {
   height: 100%;
 }
+
 
 .spinner {
   position: relative;

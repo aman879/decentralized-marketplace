@@ -21,14 +21,13 @@ export default function Card({state,course,disabled, Footer}) {
 
     return(
         <div className="bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
-            <div className="flex h-full">
-            <div className="flex-1 h-full next-image-wrapper">
-                <Image 
+            <div className="flex">
+            <div className="flex-1 next-image-wrapper">
+                <img 
                 className={`object-cover ${disabled && "filter grayscale"}`} 
                 src={course.coverImage}
-                layout="responsive"
                 width="200"
-                height="250" 
+                height="300" 
                 alt={course.title} />
             </div>
             <div className="p-8 pb-4 flex-2">
@@ -54,11 +53,11 @@ export default function Card({state,course,disabled, Footer}) {
                     }
                     </div>
                 </div>
-                <Link href={`/courses/${course.slug}`} className="block mt-1 text-lg leading-tight font-medium text-black hover:underline">
+                <Link href={`/courses/${course.slug}`} className="block mt-1 text-sm sm:text-lg leading-tight font-medium text-black hover:underline">
                 {course.title}
                 </Link>
                 <p 
-                className="mt-2 text-gray-500">
+                className="mt-2 text-sm sm:text-base text-gray-500">
                 {course.description.substring(0,70)}...
                 </p>
                 { Footer &&

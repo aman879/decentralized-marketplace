@@ -6,26 +6,26 @@ export default function CourseFilter({onSearchSubmit, onFilterSelect}) {
   const [searchText, setSearchText] = useState("")
 
   return (
-    <div className="flex items-center my-4">
-      <div className="flex mr-2 relative rounded-md">
+    <div className="flex flex-col sm:flex-row items-center my-4">
+      <div className="flex mr-4 relative rounded-md">
         <input
           onChange={({target: {value}}) => setSearchText(value)}
           value={searchText}
           type="text"
           name="courseHash" 
           id="courseHash"
-          className="w-96 focus:ring-indigo-500 shadow-md focus:border-indigo-500 block pl-7 p-4 sm:text-sm border-gray-300 rounded-md"
+          className="w-52 xs:w-96 focus:ring-indigo-500 shadow-md focus:border-indigo-500 block pl-7 p-4 sm:text-sm border-gray-300 rounded-md"
           placeholder="0x2341ab..." />
         <button
           onClick={() => onSearchSubmit(searchText)} 
-          className="px-8 py-3 rounded-md border text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700">
+          className="px-8 py-3 ml-2 rounded-md border text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700">
           Search
         </button>
       </div>
       <div className="relative text-gray-700">
         <select 
           onChange={({target: {value}}) => onFilterSelect(value)}
-          className="w-72 h-10 pl-3 pr-6 text-base placeholder-gray-600 border rounded-lg appearance-none focus:shadow-outline" placeholder="Regular input">
+          className="w-72 mt-2 h-10 pl-3 pr-6 text-base placeholder-gray-600 border rounded-lg appearance-none focus:shadow-outline" placeholder="Regular input">
           {
             OPTIONS.map(option => 
               <option key={option} value={option}>

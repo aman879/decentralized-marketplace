@@ -106,100 +106,98 @@ export default function  Marketplace() {
 
     return(
         <Base>
-            <div className="pt-4">
-                 <MarketHeader />
-                 {/* <button onClick={notify}>Notify</button> */}
-            </div>
-                <List courses = {courses}>
-                    {course => {
-                        const owned = ownedCourses.lookup[course.id]
-                        return (
-                            <Card 
-                                key={course.id}
-                                state={owned?.state}
-                                disabled={!hasConnectedWallet} 
-                                course={course} 
-                                Footer={() =>  {
-                                    
-                                    if(!isWeb3Loaded) {
-                                        return (
-                                                <button
-                                                onClick={() => setSelectedCourse(course)}
-                                                disabled={true}
-                                                className="mt-3 px-8 py-2 rounded-md border text-base font-medium text-indigo-700 bg-indigo-100 hover:bg-indigo-200">
-                                                        Install Metamask
-                                                </button>
-                                            )
-                                        }
+            <MarketHeader />
+            {/* <button onClick={notify}>Notify</button> */}
+        <List courses = {courses}>
+            {course => {
+                const owned = ownedCourses.lookup[course.id]
+                return (
+                    <Card 
+                        key={course.id}
+                        state={owned?.state}
+                        disabled={!hasConnectedWallet} 
+                        course={course} 
+                        Footer={() =>  {
+                            
+                            if(!isWeb3Loaded) {
+                                return (
+                                        <button
+                                        onClick={() => setSelectedCourse(course)}
+                                        disabled={true}
+                                        className="mt-3 px-8 py-2 rounded-md border text-base font-medium text-indigo-700 bg-indigo-100 hover:bg-indigo-200">
+                                                Install Metamask
+                                        </button>
+                                    )
+                                }
 
-                                        const isBusy = busyCourseId === course.id
-                                        //const isBusy = true
-                                        if (owned) {
-                                            return (
-                                                <div>
-                                                    {
-                                                        owned.state === "deactivated" ?
-                                                        <button
-                                                        onClick={() => {
-                                                            setIsNewPurchase(false)
-                                                            setSelectedCourse(course)
-                                                        }}
-                                                        disabled={isBusy || false}
-                                                        className="mt-3 px-8 py-2 rounded-md border text-base font-medium text-red-700 bg-red-100 hover:bg-red-200"
-                                                        >
-                                                        {
-                                                            isBusy ?
-                                                            <div className="flex">
-                                                                <Loader size="sm" />
-                                                                <div className="ml-2">In Progress</div>
-                                                            </div> :
-                                                            <div>Fund to Repurchase</div>
-                                                        }
-                                                        </button> :
-                                                        <button
-                                                        onClick={() => window.location.href = `/courses/${course.slug}`}
-                                                        disabled={false}
-                                                        className="mt-3 px-8 py-2 rounded-md border text-base font-medium text-green-700 bg-green-100 hover:bg-green-200"
-                                                        >
-                                                                Watch Course
-                                                        </button>
-                                                    }
-                                                </div>
-                                            );
-                                        }
-                                        
-                                        
-                                        return (
-                                            <button
-                                            onClick={() => setSelectedCourse(course)}
-                                            disabled={!hasConnectedWallet || isBusy}
-                                            className="mt-3 px-8 py-2 rounded-md border text-base font-medium text-indigo-700 bg-indigo-100 hover:bg-indigo-200">
+                                const isBusy = busyCourseId === course.id
+                                //const isBusy = true
+                                if (owned) {
+                                    return (
+                                        <div>
+                                            {
+                                                owned.state === "deactivated" ?
+                                                <button
+                                                onClick={() => {
+                                                    setIsNewPurchase(false)
+                                                    setSelectedCourse(course)
+                                                }}
+                                                disabled={isBusy || false}
+                                                className="mt-3 px-8 py-2 rounded-md border text-base font-medium text-red-700 bg-red-100 hover:bg-red-200"
+                                                >
                                                 {
                                                     isBusy ?
                                                     <div className="flex">
                                                         <Loader size="sm" />
                                                         <div className="ml-2">In Progress</div>
                                                     </div> :
-                                                    <div>Purchase</div>
+                                                    <div>Fund to Repurchase</div>
                                                 }
-                                            </button>
-                                        )
-                                    
-                                    }
-                                }/>
-                            )
-                        }}
-                </List>
-                { selectedCourse &&
-                    <OrderModal
-                        onClose={cleanUpModal}
-                        course={selectedCourse}
-                        isNewPurchase={isNewPurchase}
-                        onSubmit={(formData, course) => {
-                            purchaseOrder(formData, course)
-                            cleanUpModal()
-                        }}/>
-                }
+                                                </button> :
+                                                <button
+                                                onClick={() => window.location.href = `/courses/${course.slug}`}
+                                                disabled={false}
+                                                className="mt-3 px-8 py-2 rounded-md border text-base font-medium text-green-700 bg-green-100 hover:bg-green-200"
+                                                >
+                                                        Watch Course
+                                                </button>
+                                            }
+                                        </div>
+                                    );
+                                }
+                                
+                                
+                                return (
+                                    <button
+                                    onClick={() => setSelectedCourse(course)}
+                                    disabled={!hasConnectedWallet || isBusy}
+                                    className="mt-3 px-8 py-2 rounded-md border text-base font-medium text-indigo-700 bg-indigo-100 hover:bg-indigo-200">
+                                        {
+                                            isBusy ?
+                                            <div className="flex">
+                                                <Loader size="sm" />
+                                                <div className="ml-2">In Progress</div>
+                                            </div> :
+                                            <div>Purchase</div>
+                                        }
+                                    </button>
+                                )
+                            
+                            }
+                        }/>
+                    )
+                }}
+        </List>
+        { selectedCourse &&
+            <OrderModal
+                onClose={cleanUpModal}
+                course={selectedCourse}
+                isNewPurchase={isNewPurchase}
+                onSubmit={(formData, course) => {
+                    purchaseOrder(formData, course)
+                    cleanUpModal()
+                }}/>
+        }
         </Base>
     )
 }

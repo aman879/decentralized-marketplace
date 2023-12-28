@@ -18,15 +18,13 @@ export default function WallteBar() {
     return(
       <section className={`text-white rounded-lg ${color}`}>
               <div className="p-8">
-                <h1 className="text-2xl">Hello, {admin} {address}</h1>
-                <h2 className="subtitle mb-5 text-xl">I hope you are having a great day!</h2>
+                <h1 className="text-base xs:text-xl break-words">Hello, {admin} {address}</h1>
+                <h2 className="subtitle mb-5 text-sm xs:text-base">I hope you are having a great day!</h2>
                 <div className="flex justify-between items-center">
                   <div className="sm:flex sm:justify-center lg:justify-start">
-                    <div className="rounded-md shadow">
-                      <a href="#" className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-black bg-white hover:bg-gray-100 md:py-4 md:text-lg md:px-10">
-                        Learn how to purchase
-                      </a>
-                    </div>
+                    <button className="mr-2 mt-3 p-2 xs:px-8 xs:py-3 rounded-md border text-sm xs:text-base font-medium text-black bg-white">
+                      Learn how to purchase
+                    </button>
                   </div>
                   <div>
                     { !isWeb3Loaded
